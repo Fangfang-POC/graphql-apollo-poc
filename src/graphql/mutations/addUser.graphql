@@ -1,0 +1,7 @@
+    mutation AddUserMutation($user: AddUserInput) {
+        addUser(input: $user) {
+            name
+            id
+            age
+        }
+    }

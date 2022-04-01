@@ -9,6 +9,10 @@
     "lint": "eslint --ext .ts,.tsx,.js src",
     "lint:quiet": "eslint --quiet --ext .ts,.tsx,.js src",
     "lint:fix": "eslint --fix --ext .ts,.tsx,.js src",
+    "download:schema": "npx apollo-codegen introspect-schema http://localhost:4000/graphql --header --output schema.json",
+    "generate-json-from-local-graphql": "npx apollo-codegen introspect-schema schema.graphql --output schema.json",
+    "generate:types": "npx apollo-codegen generate **/*.graphql --schema schema.json --target typescript --output src/gql.ts",
+    "gen:types": "npx graphql-codegen --config codegen.yaml",
     "prepare": "npx husky install"
   },
   "repository": {
@@ -22,6 +26,11 @@
     "react-dom": "^17.0.2"
   },
   "devDependencies": {
+    "@graphql-codegen/cli": "^2.6.2",
+    "@graphql-codegen/introspection": "^2.1.1",
+    "@graphql-codegen/typescript": "^2.4.8",
+    "@graphql-codegen/typescript-operations": "^2.3.5",
+    "@graphql-codegen/typescript-react-apollo": "^3.2.11",
     "@types/node": "^17.0.21",
     "@types/react": "^17.0.40",
     "@types/react-dom": "^17.0.13",
