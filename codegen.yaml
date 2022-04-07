@@ -1,8 +1,9 @@
 overwrite: true
+watch: true
 schema: 'http://localhost:4000/gql/'
 documents: 'src/graphql/**/*.graphql'
 generates:
-    src/gql.ts:
+    src/types.ts:
         plugins:
             - 'typescript'
             - 'typescript-operations'

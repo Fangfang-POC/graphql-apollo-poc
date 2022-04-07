@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { ApolloClient, InMemoryCache, gql, ApolloProvider } from '@apollo/client';
-import App from './App';
+import { GetUsers, AddUser } from './Users';
 import './index.css';
 
 const client = new ApolloClient({
@@ -12,7 +12,8 @@ const client = new ApolloClient({
 
 ReactDOM.render(
     <ApolloProvider client={client}>
-        <App />
+        <GetUsers />
+        <AddUser />
     </ApolloProvider>,
     document.getElementById('root'),
 );
