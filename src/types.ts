@@ -53,6 +53,11 @@ export type Faction = Node & {
   ships?: Maybe<ShipConnection>;
 };
 
+export enum Gender {
+  Female = 'FEMALE',
+  Male = 'MALE'
+}
+
 export type Human = {
   __typename?: 'Human';
   age?: Maybe<Scalars['Int']>;
@@ -130,8 +135,10 @@ export type ShipEdge = {
 export type User = {
   __typename?: 'User';
   age?: Maybe<Scalars['Int']>;
+  gender?: Maybe<Gender>;
   id: Scalars['ID'];
   name?: Maybe<Scalars['String']>;
+  username?: Maybe<Scalars['String']>;
 };
 
 export type Vehicle = {
@@ -143,12 +150,12 @@ export type AddUserMutationMutationVariables = Exact<{
 }>;
 
 
-export type AddUserMutationMutation = { __typename?: 'Mutation', addUser?: { __typename?: 'User', name?: string | null, id: string, age?: number | null } | null };
+export type AddUserMutationMutation = { __typename?: 'Mutation', addUser?: { __typename?: 'User', name?: string | null, id: string, age?: number | null, username?: string | null, gender?: Gender | null } | null };
 
 export type UsersQueryQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type UsersQueryQuery = { __typename?: 'Query', users?: Array<{ __typename?: 'User', name?: string | null, id: string, age?: number | null } | null> | null };
+export type UsersQueryQuery = { __typename?: 'Query', users?: Array<{ __typename?: 'User', name?: string | null, id: string, age?: number | null, username?: string | null, gender?: Gender | null } | null> | null };
 
 
 export const AddUserMutationDocument = gql`
@@ -157,6 +164,8 @@ export const AddUserMutationDocument = gql`
     name
     id
     age
+    username
+    gender
   }
 }
     `;
@@ -192,6 +201,8 @@ export const UsersQueryDocument = gql`
     name
     id
     age
+    username
+    gender
   }
 }
     `;

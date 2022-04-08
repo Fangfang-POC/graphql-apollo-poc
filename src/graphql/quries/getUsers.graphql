@@ -3,5 +3,7 @@
             name
             id
             age
+            username
+            gender
         }
     }

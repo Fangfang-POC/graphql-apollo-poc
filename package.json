@@ -12,7 +12,7 @@
     "download:schema": "npx apollo-codegen introspect-schema http://localhost:4000/graphql --header --output schema.json",
     "generate-json-from-local-graphql": "npx apollo-codegen introspect-schema schema.graphql --output schema.json",
     "generate:types": "npx apollo-codegen generate **/*.graphql --schema schema.json --target typescript --output src/gql.ts",
-    "gen:types": "npx graphql-codegen --config codegen.yaml",
+    "gen:types": "graphql-codegen --config codegen.yaml",
     "prepare": "npx husky install"
   },
   "repository": {
@@ -43,6 +43,8 @@
     "eslint-plugin-prettier": "^4.0.0",
     "html-webpack-plugin": "^5.5.0",
     "prettier": "^2.3.2",
+    "sass": "^1.50.0",
+    "sass-loader": "^12.6.0",
     "style-loader": "^3.3.1",
     "ts-loader": "^9.2.8",
     "typescript": "^4.6.3",

@@ -59,13 +59,28 @@ export function GetUsers(): JSX.Element {
             ) : error ? (
                 <div>Error</div>
             ) : (
-                data?.users?.map((user) => (
-                    <div key={user?.id}>
-                        <span>{user?.id}</span>
-                        <span>{user?.name}</span>
-                        <span>{user?.age}</span>
-                    </div>
-                ))
+                <table>
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Name</th>
+                            <th>Age</th>
+                            <th>Gender</th>
+                            <th>Username</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {data?.users?.map((user) => (
+                            <tr key={user?.id}>
+                                <td>{user?.id}</td>
+                                <td>{user?.name}</td>
+                                <td>{user?.age}</td>
+                                <td>{user?.gender}</td>
+                                <td>{user?.username}</td>
+                            </tr>
+                        ))}
+                    </tbody>
+                </table>
             )}
             <button onClick={() => getUsers()}>getUsers</button>
         </div>
