@@ -152,12 +152,35 @@ export type AddUserMutationMutationVariables = Exact<{
 
 export type AddUserMutationMutation = { __typename?: 'Mutation', addUser?: { __typename?: 'User', name?: string | null, id: string, age?: number | null, username?: string | null, gender?: Gender | null } | null };
 
+export type UserComponent_NameFragment = { __typename?: 'User', name?: string | null };
+
+export type UserComponent_UserFragment = { __typename?: 'User', username?: string | null, age?: number | null, gender?: Gender | null, name?: string | null };
+
+export type UserComponentQueryQueryVariables = Exact<{
+  id: Scalars['ID'];
+}>;
+
+
+export type UserComponentQueryQuery = { __typename?: 'Query', user?: { __typename?: 'User', id: string, username?: string | null, age?: number | null, gender?: Gender | null, name?: string | null } | null };
+
 export type UsersQueryQueryVariables = Exact<{ [key: string]: never; }>;
 
 
 export type UsersQueryQuery = { __typename?: 'Query', users?: Array<{ __typename?: 'User', name?: string | null, id: string, age?: number | null, username?: string | null, gender?: Gender | null } | null> | null };
 
-
+export const UserComponent_NameFragmentDoc = gql`
+    fragment UserComponent_name on User {
+  name
+}
+    `;
+export const UserComponent_UserFragmentDoc = gql`
+    fragment UserComponent_user on User {
+  username
+  age
+  gender
+  ...UserComponent_name
+}
+    ${UserComponent_NameFragmentDoc}`;
 export const AddUserMutationDocument = gql`
     mutation AddUserMutation($user: AddUserInput) {
   addUser(input: $user) {
@@ -195,6 +218,42 @@ export function useAddUserMutationMutation(baseOptions?: Apollo.MutationHookOpti
 export type AddUserMutationMutationHookResult = ReturnType<typeof useAddUserMutationMutation>;
 export type AddUserMutationMutationResult = Apollo.MutationResult<AddUserMutationMutation>;
 export type AddUserMutationMutationOptions = Apollo.BaseMutationOptions<AddUserMutationMutation, AddUserMutationMutationVariables>;
+export const UserComponentQueryDocument = gql`
+    query UserComponentQuery($id: ID!) {
+  user(id: $id) {
+    id
+    ...UserComponent_user
+  }
+}
+    ${UserComponent_UserFragmentDoc}`;
+
+/**
+ * __useUserComponentQueryQuery__
+ *
+ * To run a query within a React component, call `useUserComponentQueryQuery` and pass it any options that fit your needs.
+ * When your component renders, `useUserComponentQueryQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useUserComponentQueryQuery({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useUserComponentQueryQuery(baseOptions: Apollo.QueryHookOptions<UserComponentQueryQuery, UserComponentQueryQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<UserComponentQueryQuery, UserComponentQueryQueryVariables>(UserComponentQueryDocument, options);
+      }
+export function useUserComponentQueryLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<UserComponentQueryQuery, UserComponentQueryQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<UserComponentQueryQuery, UserComponentQueryQueryVariables>(UserComponentQueryDocument, options);
+        }
+export type UserComponentQueryQueryHookResult = ReturnType<typeof useUserComponentQueryQuery>;
+export type UserComponentQueryLazyQueryHookResult = ReturnType<typeof useUserComponentQueryLazyQuery>;
+export type UserComponentQueryQueryResult = Apollo.QueryResult<UserComponentQueryQuery, UserComponentQueryQueryVariables>;
 export const UsersQueryDocument = gql`
     query UsersQuery {
   users {
