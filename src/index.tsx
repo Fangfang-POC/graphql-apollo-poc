@@ -1,8 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { ApolloClient, InMemoryCache, ApolloProvider } from '@apollo/client';
-import { GetUsers, AddUser } from './Users';
-import UserComponent from './UserComponent';
+import { GetUsers, AddUser } from './components/Users';
+import UserComponent from './components/UserComponent';
 import './index.scss';
 
 const client = new ApolloClient({

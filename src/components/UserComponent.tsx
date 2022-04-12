@@ -1,6 +1,6 @@
 import React from 'react';
 import { useQuery, useLazyQuery } from '@apollo/client';
-import { useUserComponentQueryQuery, UserComponentQueryDocument } from './types';
+import { useUserComponentQueryQuery, UserComponentQueryDocument } from '../types';
 
 export default function User(): JSX.Element {
     const { data, error, loading } = useUserComponentQueryQuery({ variables: { id: '1001' } });

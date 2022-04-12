@@ -9,6 +9,14 @@ module.exports = {
     module: {
         rules: [
             {
+                test: /\.jsx?$/,
+                use: 'babel-loader',
+                // options: {
+                //     presets: ['react'],
+                // },
+                exclude: /node_modules/,
+            },
+            {
                 test: /\.tsx?$/,
                 use: 'ts-loader',
                 exclude: /node_modules/,
@@ -42,6 +50,9 @@ module.exports = {
         liveReload: true,
         open: true,
         port: 8888,
+        progress: true,
+        hot: true,
+        injectClient: true,
     },
     plugins: [new HtmlWebpackPlugin({
         filename: 'index.html',

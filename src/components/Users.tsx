@@ -5,7 +5,7 @@ import {
     useUsersQueryLazyQuery,
     AddUserMutationDocument,
     UsersQueryDocument,
-} from './types';
+} from '../types';
 
 export function AddUser(): JSX.Element {
     const [name, setName] = useState('');
