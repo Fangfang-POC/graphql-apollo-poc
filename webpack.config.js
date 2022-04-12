@@ -6,6 +6,7 @@ module.exports = {
     entry: './src/index.tsx',
     mode: 'development',
     target: 'web',
+    // cache: false,
     module: {
         rules: [
             {
@@ -49,7 +50,7 @@ module.exports = {
     devServer: {
         liveReload: true,
         open: true,
-        port: 8888,
+        port: 6060, //make this port the same as styleguidist port to reload the page when changes are made.
         progress: true,
         hot: true,
         injectClient: true,

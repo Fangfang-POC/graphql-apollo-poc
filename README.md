@@ -2,6 +2,7 @@
 [Graphql Codegen Best Practices](https://www.the-guild.dev/blog/graphql-codegen-best-practices)
 
 This POC uses styleguidist to  generate the documentation.
+Refer to the [docs](https://fangfang-poc.github.io/graphql-apollo-poc/)
 
 ## Generate types according to the schema and graphql queries and mutations
 - `yarn gen:types`

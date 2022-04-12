@@ -2,6 +2,7 @@ const path = require("path");
 const { styles, theme } = require("./styleguide.styles");
 
 module.exports = {
+    title: 'GraphQL Apollo POC',
     webpackConfig: require('./webpack.config'),
     pagePerSection: true,
     styleguideDir: 'docs',
