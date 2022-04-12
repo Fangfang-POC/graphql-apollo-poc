@@ -4,7 +4,7 @@ const { styles, theme } = require("./styleguide.styles");
 module.exports = {
     webpackConfig: require('./webpack.config'),
     pagePerSection: true,
-    styleguideDir: 'demo',
+    styleguideDir: 'docs',
     propsParser: require('react-docgen-typescript').withCustomConfig(
         './tsconfig.json'
     ).parse,
