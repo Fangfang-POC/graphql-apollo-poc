@@ -21,5 +21,4 @@ module.exports = {
         '@typescript-eslint/ban-ts-comment': 'warn',
         '@typescript-eslint/explicit-module-boundary-types': 'warn',
     },
-    
 };

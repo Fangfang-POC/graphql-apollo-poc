@@ -1,6 +1,7 @@
 import React from 'react';
 import { useQuery, useLazyQuery } from '@apollo/client';
-import { useUserComponentQueryQuery, UserComponentQueryDocument } from '../types';
+import { useUserComponentQueryQuery, UserComponentQueryDocument } from '../../types';
+import './style.scss';
 
 export default function User(): JSX.Element {
     const { data, error, loading } = useUserComponentQueryQuery({ variables: { id: '1001' } });
@@ -17,10 +18,10 @@ export default function User(): JSX.Element {
     const { user } = data;
     return (
         <>
-            <span>{user?.age}</span>
-            <span>{user?.gender}</span>
-            <span>{user?.username}</span>
-            <span>{user?.name}</span>
+            <span className="userValue">{user?.age}</span>
+            <span className="userValue">{user?.gender}</span>
+            <span className="userValue">{user?.username}</span>
+            <span className="userValue">{user?.name}</span>
         </>
     );
 }

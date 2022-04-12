@@ -41,10 +41,10 @@ module.exports = {
             // components: 'src/components/**/[A-Za-z]*.tsx',
             sections: [{
                 name: 'Fragment example',
-                components: ['src/components/UserComponent.tsx']
+                components: ['src/components/FragmentExample/UserComponent.tsx']
             }, {
                 name: 'Mutation example',
-                components: ['src/components/Users.tsx']
+                components: ['src/components/MutationExample/Users.tsx']
             }]
         }
     ]
