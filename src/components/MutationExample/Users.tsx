@@ -26,11 +26,17 @@ export function AddUser(): JSX.Element {
             <br />
             <br />
             <button
-                onClick={() =>
+                onClick={() => {
+                    if (!name || !age) {
+                        alert('invalid input');
+                        return;
+                    }
                     addUser({
                         variables: { user: { name, age } },
-                    })
-                }
+                    });
+                    setName('');
+                    setAge(0);
+                }}
             >
                 addUser
             </button>
