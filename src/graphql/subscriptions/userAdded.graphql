@@ -1,0 +1,6 @@
+subscription UserAdded {
+  userAdded {
+    age
+    name
+  }
+}

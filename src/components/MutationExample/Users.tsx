@@ -12,7 +12,7 @@ export function AddUser(): JSX.Element {
     const [name, setName] = useState('');
     const [age, setAge] = useState(0);
     const [addUser, { data: addUserData, loading: addUserLoading, error: addUserError }] = useAddUserMutationMutation({
-        variables: { user: { name: 'Fangfang', age: 32 } },
+        // variables: { user: { name: 'Fangfang', age: 32 } },
         refetchQueries: [{ query: UsersQueryDocument }],
     });
     return (

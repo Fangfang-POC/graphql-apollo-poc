@@ -46,6 +46,9 @@ module.exports = {
             }, {
                 name: 'Mutation example',
                 components: ['src/components/MutationExample/Users.tsx']
+            },{
+                name: 'Subscription example',
+                components: ['src/components/SubscriptionExample/LatestUser.tsx']
             }]
         }
     ]

@@ -132,6 +132,11 @@ export type ShipEdge = {
   node?: Maybe<Ship>;
 };
 
+export type Subscription = {
+  __typename?: 'Subscription';
+  userAdded?: Maybe<User>;
+};
+
 export type User = {
   __typename?: 'User';
   age?: Maybe<Scalars['Int']>;
@@ -167,6 +172,11 @@ export type UsersQueryQueryVariables = Exact<{ [key: string]: never; }>;
 
 
 export type UsersQueryQuery = { __typename?: 'Query', users?: Array<{ __typename?: 'User', name?: string | null, id: string, age?: number | null, username?: string | null, gender?: Gender | null } | null> | null };
+
+export type UserAddedSubscriptionVariables = Exact<{ [key: string]: never; }>;
+
+
+export type UserAddedSubscription = { __typename?: 'Subscription', userAdded?: { __typename?: 'User', age?: number | null, name?: string | null } | null };
 
 export const UserComponent_NameFragmentDoc = gql`
     fragment UserComponent_name on User {
@@ -292,3 +302,33 @@ export function useUsersQueryLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions
 export type UsersQueryQueryHookResult = ReturnType<typeof useUsersQueryQuery>;
 export type UsersQueryLazyQueryHookResult = ReturnType<typeof useUsersQueryLazyQuery>;
 export type UsersQueryQueryResult = Apollo.QueryResult<UsersQueryQuery, UsersQueryQueryVariables>;
+export const UserAddedDocument = gql`
+    subscription UserAdded {
+  userAdded {
+    age
+    name
+  }
+}
+    `;
+
+/**
+ * __useUserAddedSubscription__
+ *
+ * To run a query within a React component, call `useUserAddedSubscription` and pass it any options that fit your needs.
+ * When your component renders, `useUserAddedSubscription` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the subscription, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useUserAddedSubscription({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useUserAddedSubscription(baseOptions?: Apollo.SubscriptionHookOptions<UserAddedSubscription, UserAddedSubscriptionVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useSubscription<UserAddedSubscription, UserAddedSubscriptionVariables>(UserAddedDocument, options);
+      }
+export type UserAddedSubscriptionHookResult = ReturnType<typeof useUserAddedSubscription>;
+export type UserAddedSubscriptionResult = Apollo.SubscriptionResult<UserAddedSubscription>;
