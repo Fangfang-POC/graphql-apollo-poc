@@ -1,17 +1,11 @@
 import React from 'react';
 import { useSubscription } from '@apollo/client';
 import { useUserAddedSubscription } from '../../types';
+import handleErrorLoading from '../../utils/handleErrorLoading';
 
 export default function LatestUser() {
     const { data, error, loading } = useUserAddedSubscription();
-
-    if (error) {
-        return <div>Error</div>;
-    }
-    if (loading) {
-        return <div>Loading...</div>;
-    }
-    return (
+    const children = (
         <>
             <label>The user just added: </label>
             <br />
@@ -19,4 +13,5 @@ export default function LatestUser() {
             <span className="userValue">{data?.userAdded?.age}</span>
         </>
     );
+    return handleErrorLoading({ loading, error, children });
 }
