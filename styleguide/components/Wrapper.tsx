@@ -3,6 +3,7 @@ import { ApolloClient, InMemoryCache, ApolloProvider, split, HttpLink } from '@a
 import { GraphQLWsLink } from '@apollo/client/link/subscriptions';
 import { createClient } from 'graphql-ws';
 import { getMainDefinition } from '@apollo/client/utilities';
+import { UsersQueryResult, } from '../../src/types';
 
 const wsLink = new GraphQLWsLink(createClient({
     url: 'ws://localhost:4000/subscriptions',
@@ -31,10 +32,46 @@ const splitLink = split(
     httpLink,
 );
 
+const InMemoryCacheConfig = {
+    typePolicies: {
+        Query: {
+            fields: {
+                users: {
+                    // Don't cache separate results based on any of this field's arguments.
+                    keyArgs: [], //['offset', 'limit'],
+                    // Concatenate the incoming list items with the existing list items.
+                    merge(existing: UsersQueryResult | undefined, incoming: UsersQueryResult) {
+                        if(!existing) {
+                            return incoming;
+                        }
+                        return {
+                            totalCount: incoming?.totalCount,
+                            userList: [...existing?.userList, ...incoming.userList],
+                        };
+                    },
+                    read(existing: UsersQueryResult | undefined, { args }) {
+                        // A read function should always return undefined if existing is
+                        // undefined. Returning undefined signals that the field is
+                        // missing from the cache, which instructs Apollo Client to
+                        // fetch its value from your GraphQL server.
+
+                        //re-pagination
+                        // const { offset = 0, limit = existing?.userList.length } = args;                      
+                        // return {
+                        //     totalCount: existing?.totalCount,
+                        //     userList: existing?.userList.slice(offset, offset + limit),
+                        // };
+                        //no-pagination, no need to define read function
+                        return existing;
+                    }
+                },
+            },
+        },
+    },
+};
 const client = new ApolloClient({
     link: splitLink,
-    // uri: 'http://localhost:4000/graphql',
-    cache: new InMemoryCache(),
+    cache: new InMemoryCache(InMemoryCacheConfig),
     connectToDevTools: true,
 });
 

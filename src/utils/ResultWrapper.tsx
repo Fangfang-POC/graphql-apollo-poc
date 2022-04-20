@@ -7,7 +7,7 @@ type HOCProps = {
     children?: React.ReactNode;
 };
 
-export default function withSuspense(props: HOCProps) {
+export default function ResultWrapper(props: HOCProps) {
     const { error, loading, children } = props;
 
     if (error) {

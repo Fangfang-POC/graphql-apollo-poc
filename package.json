@@ -5,7 +5,7 @@
   "main": "index.js",
   "type": "commonjs",
   "scripts": {
-    "start": "styleguidist server",
+    "start": "concurrently --kill-others --names \"server,compiler\" \"yarn gen:types\" \"styleguidist server\"",
     "build": "styleguidist build",
     "devserver": "webpack serve --progress --hot --config webpack.config.js",
     "lint": "eslint --ext .ts,.tsx,.js src",
@@ -45,6 +45,7 @@
     "@webpack-cli/serve": "^1.6.1",
     "babel-loader": "^8.2.4",
     "css-loader": "^6.7.1",
+    "concurrently": "^4.1.0",
     "eslint": "^7.25.0",
     "eslint-config-prettier": "^8.3.0",
     "eslint-plugin-prettier": "^4.0.0",

@@ -93,7 +93,7 @@ export type Query = {
   rebels?: Maybe<Faction>;
   search?: Maybe<Array<Maybe<SearchResult>>>;
   user?: Maybe<User>;
-  users?: Maybe<Array<Maybe<User>>>;
+  users?: Maybe<UsersQueryResult>;
   vehicles?: Maybe<Array<Maybe<Vehicle>>>;
 };
 
@@ -110,6 +110,12 @@ export type QueryRebelsArgs = {
 
 export type QueryUserArgs = {
   id: Scalars['ID'];
+};
+
+
+export type QueryUsersArgs = {
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
 };
 
 export type SearchResult = Cat | Dog | Human;
@@ -140,10 +146,17 @@ export type Subscription = {
 export type User = {
   __typename?: 'User';
   age?: Maybe<Scalars['Int']>;
+  /** @deprecated test directive */
   gender?: Maybe<Gender>;
   id: Scalars['ID'];
   name?: Maybe<Scalars['String']>;
   username?: Maybe<Scalars['String']>;
+};
+
+export type UsersQueryResult = {
+  __typename?: 'UsersQueryResult';
+  totalCount?: Maybe<Scalars['Int']>;
+  userList?: Maybe<Array<Maybe<User>>>;
 };
 
 export type Vehicle = {
@@ -168,10 +181,13 @@ export type UserComponentQueryQueryVariables = Exact<{
 
 export type UserComponentQueryQuery = { __typename?: 'Query', user?: { __typename?: 'User', id: string, username?: string | null, age?: number | null, gender?: Gender | null, name?: string | null } | null };
 
-export type UsersQueryQueryVariables = Exact<{ [key: string]: never; }>;
+export type UsersQueryQueryVariables = Exact<{
+  offset?: InputMaybe<Scalars['Int']>;
+  limit?: InputMaybe<Scalars['Int']>;
+}>;
 
 
-export type UsersQueryQuery = { __typename?: 'Query', users?: Array<{ __typename?: 'User', name?: string | null, id: string, age?: number | null, username?: string | null, gender?: Gender | null } | null> | null };
+export type UsersQueryQuery = { __typename?: 'Query', users?: { __typename?: 'UsersQueryResult', totalCount?: number | null, userList?: Array<{ __typename?: 'User', name?: string | null, id: string, username?: string | null, gender?: Gender | null, age?: number | null } | null> | null } | null };
 
 export type UserAddedSubscriptionVariables = Exact<{ [key: string]: never; }>;
 
@@ -265,13 +281,16 @@ export type UserComponentQueryQueryHookResult = ReturnType<typeof useUserCompone
 export type UserComponentQueryLazyQueryHookResult = ReturnType<typeof useUserComponentQueryLazyQuery>;
 export type UserComponentQueryQueryResult = Apollo.QueryResult<UserComponentQueryQuery, UserComponentQueryQueryVariables>;
 export const UsersQueryDocument = gql`
-    query UsersQuery {
-  users {
-    name
-    id
-    age
-    username
-    gender
+    query UsersQuery($offset: Int, $limit: Int) {
+  users(offset: $offset, limit: $limit) {
+    totalCount
+    userList {
+      name
+      id
+      username
+      gender
+      age
+    }
   }
 }
     `;
@@ -288,6 +307,8 @@ export const UsersQueryDocument = gql`
  * @example
  * const { data, loading, error } = useUsersQueryQuery({
  *   variables: {
+ *      offset: // value for 'offset'
+ *      limit: // value for 'limit'
  *   },
  * });
  */

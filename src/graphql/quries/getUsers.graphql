@@ -1,9 +1,12 @@
-    query UsersQuery {
-        users {
-            name
-            id
-            age
-            username
-            gender
-        }
+query UsersQuery($offset: Int, $limit: Int ) {
+  users(offset: $offset, limit: $limit) {
+    totalCount
+    userList {
+      name
+      id
+      username
+      gender
+      age
     }
+  }
+}
