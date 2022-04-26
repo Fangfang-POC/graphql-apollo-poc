@@ -5,6 +5,8 @@ import {
     useUsersQueryLazyQuery,
     AddUserMutationDocument,
     UsersQueryDocument,
+    useUsersQueryQuery,
+    useDeleteUserMutationMutation,
 } from '../../types';
 import ResultWrapper from '../../utils/ResultWrapper';
 import './style.scss';
@@ -52,11 +54,15 @@ export function AddUser(): JSX.Element {
     );
 }
 export function GetUsers(): JSX.Element {
-    const [getUsers, { data, loading, error, networkStatus, fetchMore }] = useUsersQueryLazyQuery({
+    const [limit, setLimit] = useState(2);
+    const { data, loading, error, networkStatus, fetchMore } = useUsersQueryQuery({
         notifyOnNetworkStatusChange: true,
         fetchPolicy: 'cache-and-network',
         nextFetchPolicy: 'cache-first',
-        variables: { offset: 0, limit: 2 },
+        variables: { offset: 0, limit },
+    });
+    const [deleteUser] = useDeleteUserMutationMutation({
+        refetchQueries: [{ query: UsersQueryDocument }],
     });
     const { users } = data || {};
     const { totalCount, userList } = users || {};
@@ -74,6 +80,7 @@ export function GetUsers(): JSX.Element {
                         <th>Age</th>
                         <th>Gender</th>
                         <th>Username</th>
+                        <th>Actions</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -84,6 +91,18 @@ export function GetUsers(): JSX.Element {
                             <td>{user?.age}</td>
                             <td>{user?.gender}</td>
                             <td>{user?.username}</td>
+                            <td>
+                                <button
+                                    onClick={() => {
+                                        user?.id &&
+                                            deleteUser({
+                                                variables: { deleteUserId: user?.id },
+                                            });
+                                    }}
+                                >
+                                    Delete
+                                </button>
+                            </td>
                         </tr>
                     ))}
                 </tbody>
@@ -92,27 +111,15 @@ export function GetUsers(): JSX.Element {
     );
     return (
         <>
-            <button onClick={() => getUsers()}>Get First 2 users</button>
+            <label>Offset based pagination</label>
             <button
                 onClick={() => {
                     fetchMore({
                         variables: { offset: userList?.length || 0 },
-                        // updateQuery: (prev, { fetchMoreResult }) => {
-                        //     if (!fetchMoreResult) {
-                        //         return prev;
-                        //     }
-                        //     return {
-                        //         ...prev,
-                        //         users: {
-                        //             ...prev.users,
-                        //             userList: [...prev.users?.userList || [], ...fetchMoreResult?.users?.userList || []],
-                        //         },
-                        //     };
-                        // },
                     });
                 }}
             >
-                Get the rest users
+                Get the next {limit} users
             </button>
             <ResultWrapper loading={loading} error={error} children={children} />
         </>

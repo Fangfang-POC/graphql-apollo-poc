@@ -2,7 +2,7 @@ import React, { ReactElement } from 'react';
 import { ApolloClient, InMemoryCache, ApolloProvider, split, HttpLink } from '@apollo/client';
 import { GraphQLWsLink } from '@apollo/client/link/subscriptions';
 import { createClient } from 'graphql-ws';
-import { getMainDefinition } from '@apollo/client/utilities';
+import { getMainDefinition, offsetLimitPagination } from '@apollo/client/utilities';
 import { UsersQueryResult, } from '../../src/types';
 
 const wsLink = new GraphQLWsLink(createClient({
@@ -16,7 +16,6 @@ const httpLink = new HttpLink({
 });
 
 // The split function takes three parameters:
-//
 // * A function that's called for each operation to execute
 // * The Link to use for an operation if the function returns a "truthy" value
 // * The Link to use for an operation if the function returns a "falsy" value
@@ -49,7 +48,7 @@ const InMemoryCacheConfig = {
                             userList: [...existing?.userList, ...incoming.userList],
                         };
                     },
-                    read(existing: UsersQueryResult | undefined, { args }) {
+                    read(existing: UsersQueryResult | undefined, { args: { offset, limit } }) {
                         // A read function should always return undefined if existing is
                         // undefined. Returning undefined signals that the field is
                         // missing from the cache, which instructs Apollo Client to
