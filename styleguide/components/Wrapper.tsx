@@ -50,10 +50,10 @@ const MyInMemoryCacheConfig: InMemoryCacheConfig = {
                         }
                         return {
                             totalCount: incoming?.totalCount,
-                            userList: [...existing?.userList, ...incoming.userList],
+                            userList: [...existing?.userList || [], ...incoming.userList || []],
                         };
                     },
-                    read(existing: UsersQueryResult | undefined, { args: { offset, limit } }) {
+                    read(existing: UsersQueryResult, { args}) {
                         // A read function should always return undefined if existing is
                         // undefined. Returning undefined signals that the field is
                         // missing from the cache, which instructs Apollo Client to
