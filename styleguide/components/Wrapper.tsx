@@ -1,5 +1,5 @@
 import React, { ReactElement } from 'react';
-import { ApolloClient, InMemoryCache, ApolloProvider, split, HttpLink } from '@apollo/client';
+import { ApolloClient, InMemoryCache, InMemoryCacheConfig, ApolloProvider, split, HttpLink } from '@apollo/client';
 import { GraphQLWsLink } from '@apollo/client/link/subscriptions';
 import { createClient } from 'graphql-ws';
 import { getMainDefinition, offsetLimitPagination } from '@apollo/client/utilities';
@@ -7,12 +7,17 @@ import { UsersQueryResult, } from '../../src/types';
 
 const wsLink = new GraphQLWsLink(createClient({
     url: 'ws://localhost:4000/subscriptions',
-    // connectionParams: {
-    //     authToken: '123',
-    // }
+    connectionParams: {
+        authToken: 'Bearer fjdkfkre3434j34k',
+    }
 }));
 const httpLink = new HttpLink({
-    uri: 'http://localhost:4000/graphql'
+    uri: 'http://localhost:4000/graphql',
+    credentials: 'include',
+    headers: {
+        Authorization: 'Bearer fjdkfkre3434j34k',
+        TestHeader: 'test'
+    }
 });
 
 // The split function takes three parameters:
@@ -31,7 +36,7 @@ const splitLink = split(
     httpLink,
 );
 
-const InMemoryCacheConfig = {
+const MyInMemoryCacheConfig: InMemoryCacheConfig = {
     typePolicies: {
         Query: {
             fields: {
@@ -70,7 +75,7 @@ const InMemoryCacheConfig = {
 };
 const client = new ApolloClient({
     link: splitLink,
-    cache: new InMemoryCache(InMemoryCacheConfig),
+    cache: new InMemoryCache(MyInMemoryCacheConfig),
     connectToDevTools: true,
 });
 
