@@ -12,7 +12,7 @@ const wsLink = new GraphQLWsLink(createClient({
     }
 }));
 const httpLink = new HttpLink({
-    uri: 'http://localhost:4000/graphql',
+    uri: 'https://localhost:4000/graphql',
     credentials: 'include',
     headers: {
         Authorization: 'Bearer fjdkfkre3434j34k',
