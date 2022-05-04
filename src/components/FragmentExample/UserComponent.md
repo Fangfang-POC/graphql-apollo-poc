@@ -1,5 +1,6 @@
 ## Sample Usage
 
 ```js
-<UserComponent />
+import {Login} from './UserComponent.tsx'
+;<Login />
 ```
