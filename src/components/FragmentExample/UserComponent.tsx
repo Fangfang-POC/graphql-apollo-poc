@@ -1,22 +1,13 @@
-import React from 'react';
-import { useQuery, useLazyQuery } from '@apollo/client';
+import React, { useEffect } from 'react';
+import { useQuery, useLazyQuery, ServerError } from '@apollo/client';
 import { useUserComponentQueryQuery, UserComponentQueryDocument } from '../../types';
 import './style.scss';
+import ResultWrapper from '../../utils/ResultWrapper';
 
 function User(): JSX.Element {
     const { data, error, loading } = useUserComponentQueryQuery({ variables: { id: '1001' } });
-    if (loading) {
-        return <div>Loading...</div>;
-    }
-    if (error) {
-        console.log(error);
-        return <div>Error</div>;
-    }
-    if (!data) {
-        return <div>no data</div>;
-    }
-    const { user } = data;
-    return (
+    const { user } = data || {};
+    const children = (
         <>
             <span className="userValue">{user?.age}</span>
             <span className="userValue">{user?.gender}</span>
@@ -24,11 +15,44 @@ function User(): JSX.Element {
             <span className="userValue">{user?.name}</span>
         </>
     );
+    return (
+        <ResultWrapper error={error} loading={loading}>
+            {children}
+        </ResultWrapper>
+    );
 }
-export function Login() {
+export default function Login() {
     const [showUserComponent, setShow] = React.useState(false);
+    let hasAccess = false;
+    useEffect(() => {
+        async function checkStorageAccess() {
+            if (document.hasStorageAccess) {
+                hasAccess = await document.hasStorageAccess();
+                console.log('hasAccess', hasAccess);
+            }
+        }
+        checkStorageAccess();
+    }, []);
     return (
         <>
+            <button
+                onClick={() => {
+                    if (!hasAccess) {
+                        if (document.requestStorageAccess) {
+                            document
+                                .requestStorageAccess()
+                                .then(() => {
+                                    console.log('storage access granted');
+                                })
+                                .catch((e) => {
+                                    console.log('error', e);
+                                });
+                        }
+                    }
+                }}
+            >
+                Allow Request Storage Access
+            </button>
             <button
                 onClick={async () => {
                     const res = await authenticate();

@@ -11,7 +11,8 @@ export default function ResultWrapper(props: HOCProps) {
     const { error, loading, children } = props;
 
     if (error) {
-        return <div>Error</div>;
+        console.log(error);
+        return <div>{error?.networkError?.message ? error?.networkError?.message : 'Error'}</div>;
     }
     if (loading) {
         return <div>Loading...</div>;
